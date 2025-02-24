@@ -1,6 +1,10 @@
 import "./App.css";
 import { useReducer, useState } from "react";
-import reducer, { ADICIONAR_FRASE, REMOVER_FRASE } from "./reducer";
+import reducer, {
+  ADICIONAR_FRASE,
+  EDITAR_FRASE,
+  REMOVER_FRASE,
+} from "./reducer";
 
 function App() {
   // Lista de frases (estado)
@@ -19,6 +23,15 @@ function App() {
     dispatch({
       tipo: ADICIONAR_FRASE,
       frase: frase,
+    });
+  }
+
+  function editarFrase(frase) {
+    const fraseNova = prompt("Editar frase", frase);
+    dispatch({
+      tipo: EDITAR_FRASE,
+      fraseAntiga: frase,
+      fraseNova: fraseNova,
     });
   }
 
@@ -44,6 +57,13 @@ function App() {
       {listaDeFrases.map((frase, index) => (
         <div key={index}>
           <p>{frase}</p>
+          <button
+            onClick={() => {
+              editarFrase(frase);
+            }}
+          >
+            Editar
+          </button>
           <button
             onClick={() => {
               excluirFrase(frase);
