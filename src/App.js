@@ -5,6 +5,7 @@ import reducer, {
   EDITAR_FRASE,
   REMOVER_FRASE,
 } from "./reducer";
+import { FaCheck, FaEdit, FaTrash } from "react-icons/fa";
 
 function App() {
   const [frase, setFrase] = useState("");
@@ -36,35 +37,57 @@ function App() {
 
   return (
     <div className="App">
-      <form onSubmit={salvarFrase}>
-        <textarea
+      <form className="formFrases" onSubmit={salvarFrase}>
+        <label for="fraseDoUsuario">Digite uma frase:</label>
+        <input
           value={frase}
           onChange={(evento) => setFrase(evento.target.value)}
           placeholder="Digite uma frase"
+          id="fraseDoUsuario"
           required
         />
-        <br />
-        <button type="submit">Salvar frase</button>
+        <button type="submit" className="btn salvar">
+          <FaCheck />
+          <span>Salvar frase</span>
+        </button>
       </form>
-      {listaDeFrases.map((frase, index) => (
-        <div key={index}>
-          <p>{frase}</p>
-          <button
-            onClick={() => {
-              editarFrase(frase);
-            }}
-          >
-            Editar
-          </button>
-          <button
-            onClick={() => {
-              excluirFrase(frase);
-            }}
-          >
-            Remover
-          </button>
-        </div>
-      ))}
+      {listaDeFrases.length > 0 && (
+        <table className="tabelaFrases">
+          <thead>
+            <th>ID</th>
+            <th>Frase</th>
+            <th>Opções</th>
+          </thead>
+          <tbody>
+            {listaDeFrases.map((frase, index) => (
+              <tr key={index}>
+                <td>{index}</td>
+                <td>
+                  <em>{frase}</em>
+                </td>
+                <td className="opcoes">
+                  <button
+                    onClick={() => {
+                      editarFrase(frase);
+                    }}
+                    className="btn editar"
+                  >
+                    <FaEdit />
+                  </button>
+                  <button
+                    onClick={() => {
+                      excluirFrase(frase);
+                    }}
+                    className="btn remover"
+                  >
+                    <FaTrash />
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
     </div>
   );
 }
