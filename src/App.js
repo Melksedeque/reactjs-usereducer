@@ -1,5 +1,6 @@
 import "./App.css";
-import { useState } from "react";
+import { useReducer, useState } from "react";
+import reducer, { ADICIONAR_FRASE, REMOVER_FRASE } from "./reducer";
 
 function App() {
   // Lista de frases (estado)
@@ -10,20 +11,22 @@ function App() {
   // Usuário pode editar frases
 
   const [frase, setFrase] = useState("");
-  const [listaDeFrases, setListaDeFrases] = useState([]);
+  // const [listaDeFrases, setListaDeFrases] = useState([]);
+  const [listaDeFrases, dispatch] = useReducer(reducer, []);
 
   function salvarFrase(e) {
     e.preventDefault();
-    if (frase.length < 20) {
-      alert("A frase deve ter mais de 20 caracteres");
-      return;
-    } else if (listaDeFrases.includes(frase)) {
-      alert("Não são permitidas frases duplicadas");
-      return;
-    } else {
-      setListaDeFrases([...listaDeFrases, frase]);
-      alert("Frase salva com sucesso!");
-    }
+    dispatch({
+      tipo: ADICIONAR_FRASE,
+      frase: frase,
+    });
+  }
+
+  function excluirFrase(frase) {
+    dispatch({
+      tipo: REMOVER_FRASE,
+      frase: frase,
+    });
   }
 
   return (
@@ -43,7 +46,7 @@ function App() {
           <p>{frase}</p>
           <button
             onClick={() => {
-              setListaDeFrases(listaDeFrases.filter((f) => f !== frase));
+              excluirFrase(frase);
             }}
           >
             Remover
