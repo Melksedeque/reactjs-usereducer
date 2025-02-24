@@ -7,15 +7,7 @@ import reducer, {
 } from "./reducer";
 
 function App() {
-  // Lista de frases (estado)
-  // O usuário pode adicionar novas frases desde que:
-  // A frase possua mais de 20 caracteres
-  // A frase seja única (não pode haver duplicidade)
-  // Usuário pode remover frases
-  // Usuário pode editar frases
-
   const [frase, setFrase] = useState("");
-  // const [listaDeFrases, setListaDeFrases] = useState([]);
   const [listaDeFrases, dispatch] = useReducer(reducer, []);
 
   function salvarFrase(e) {
